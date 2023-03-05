@@ -45,6 +45,7 @@ public class AuthenticateController {
 
             return ResponseEntity.ok(Map.of("token", new JwtResponse(token), "user", (User) userDetails));
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
