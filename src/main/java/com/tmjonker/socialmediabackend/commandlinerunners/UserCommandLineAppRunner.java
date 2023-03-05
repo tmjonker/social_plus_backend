@@ -28,7 +28,8 @@ public class UserCommandLineAppRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // create default admin account with a default password that can be changed later.
-        UserDTO userDTO = new UserDTO("admin", "password", "password");
+        UserDTO userDTO = new UserDTO("admin", "password", "password",
+                null, null, null);
 
         try {
             User user = customUserDetailsService.saveNewUser(userDTO);

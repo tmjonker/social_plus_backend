@@ -34,7 +34,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         boolean exists = userRepository.existsByUsername(userDTO.getUsername());
         if (!exists) {
-            User user = new User(userDTO.getUsername(), passwordManagementService.encodePassword(userDTO.getPassword1()));
+            User user = new User(userDTO.getEmail(), userDTO.getUsername(), userDTO.getFirstName(),
+                    userDTO.getLastName(), passwordManagementService.encodePassword(userDTO.getPassword1()));
             return userRepository.save(user);
         } else {
             throw new UsernameAlreadyExistsException(userDTO.getUsername());
