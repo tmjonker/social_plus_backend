@@ -10,7 +10,7 @@ public class UserDTO {
     private String lastName;
 
 
-    public UserDTO(String username, String password1, String password2, String email, String firstName, String lastName) {
+    public UserDTO(String username, String email, String firstName, String lastName, String password1, String password2) {
         this.username = username;
         this.password1 = password1;
         this.password2 = password2;
@@ -18,6 +18,8 @@ public class UserDTO {
         this.firstName = firstName;
         this.lastName = lastName;
     }
+
+    public UserDTO() {}
 
     public String getUsername() {
         return username;
