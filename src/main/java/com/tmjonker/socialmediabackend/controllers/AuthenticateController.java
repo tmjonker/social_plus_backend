@@ -37,9 +37,9 @@ public class AuthenticateController {
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
         try {
-            authenticationService.authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+            authenticationService.authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
             final UserDetails userDetails = userDetailsService
-                    .loadUserByUsername(authenticationRequest.getUsername());
+                    .loadUserByUsername(authenticationRequest.getEmail());
 
             final String token = jwtTokenUtil.generateToken(userDetails);
 
