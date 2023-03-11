@@ -1,14 +1,14 @@
 package com.tmjonker.socialmediabackend.entities.user;
 
+import com.tmjonker.socialmediabackend.entities.message.MessageReceived;
+import com.tmjonker.socialmediabackend.entities.message.MessageSent;
 import com.tmjonker.socialmediabackend.entities.role.Role;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -33,6 +33,8 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    private String imgPath;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
@@ -40,6 +42,14 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "fromUserId", referencedColumnName = "id")
+    private List<MessageSent> sentMessages = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "toUserId", referencedColumnName = "id")
+    private List<MessageReceived> receivedMessages = new ArrayList<>();
 
     public User() {}
 
@@ -49,6 +59,14 @@ public class User implements UserDetails {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
+    }
+
+    public void addSentMessage(MessageSent messageSent) {
+        sentMessages.add(messageSent);
+    }
+
+    public void addReceivedMessage(MessageReceived messageReceived) {
+        receivedMessages.add(messageReceived);
     }
 
     public void addRole(Role role) {
@@ -139,5 +157,13 @@ public class User implements UserDetails {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 }
