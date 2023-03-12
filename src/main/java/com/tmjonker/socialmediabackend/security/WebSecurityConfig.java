@@ -64,7 +64,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((auth) -> {
                             try {
                                 auth
-                                        .requestMatchers("/register", "/authenticate")
+                                        .requestMatchers("/register", "/authenticate", "/email", "/username")
                                         .permitAll()
                                         .anyRequest().denyAll()
                                         .and()

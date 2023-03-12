@@ -4,6 +4,7 @@ import com.tmjonker.socialmediabackend.constants.Constants;
 import com.tmjonker.socialmediabackend.dto.UserDTO;
 import com.tmjonker.socialmediabackend.entities.role.Role;
 import com.tmjonker.socialmediabackend.entities.user.User;
+import com.tmjonker.socialmediabackend.exceptions.EmailAlreadyExistsException;
 import com.tmjonker.socialmediabackend.exceptions.UsernameAlreadyExistsException;
 import com.tmjonker.socialmediabackend.repositories.RoleRepository;
 import com.tmjonker.socialmediabackend.repositories.UserRepository;
@@ -36,6 +37,16 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("username"));
     }
 
+    public boolean userExistsByEmail(String email) {
+
+        return userRepository.existsByEmail(email);
+    }
+
+    public boolean userExistsByUsername(String username) {
+
+        return userRepository.existsByUsername(username);
+    }
+
     public User saveNewUser(UserDTO userDTO) throws UsernameAlreadyExistsException {
 
         Role role = new Role();
@@ -46,12 +57,18 @@ public class CustomUserDetailsService implements UserDetailsService {
             System.out.println(e.getMessage());
         }
 
-        boolean exists = userRepository.existsByUsername(userDTO.getUsername());
-        if (!exists) {
-            User user = new User(userDTO.getEmail(), userDTO.getUsername(), userDTO.getFirstName(),
-                    userDTO.getLastName(), passwordManagementService.encodePassword(userDTO.getPassword1()));
-            user.addRole(role);
-            return userRepository.save(user);
+        boolean existsByUsername = userRepository.existsByUsername(userDTO.getUsername());
+        boolean existsByEmail = userRepository.existsByEmail(userDTO.getEmail());
+
+        if (!existsByUsername) {
+            if (!existsByEmail) {
+                User user = new User(userDTO.getEmail(), userDTO.getUsername(), userDTO.getFirstName(),
+                        userDTO.getLastName(), passwordManagementService.encodePassword(userDTO.getPassword1()));
+                user.addRole(role);
+                return userRepository.save(user);
+            } else {
+                throw new EmailAlreadyExistsException(userDTO.getEmail());
+            }
         } else {
             throw new UsernameAlreadyExistsException(userDTO.getUsername());
         }
