@@ -1,5 +1,6 @@
 package com.tmjonker.socialmediabackend.controllers;
 
+import com.tmjonker.socialmediabackend.dto.UserStorageDTO;
 import com.tmjonker.socialmediabackend.entities.user.User;
 import com.tmjonker.socialmediabackend.jwt.JwtRequest;
 import com.tmjonker.socialmediabackend.jwt.JwtResponse;
@@ -43,7 +44,9 @@ public class AuthenticateController {
 
             final String token = jwtTokenUtil.generateToken(userDetails);
 
-            return ResponseEntity.ok(Map.of("token", new JwtResponse(token), "user", (User) userDetails));
+            UserStorageDTO userStorageDTO = new UserStorageDTO((User) userDetails);
+
+            return ResponseEntity.ok(Map.of("token", new JwtResponse(token), "user", userStorageDTO));
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

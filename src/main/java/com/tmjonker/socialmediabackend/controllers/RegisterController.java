@@ -1,6 +1,7 @@
 package com.tmjonker.socialmediabackend.controllers;
 
 import com.tmjonker.socialmediabackend.dto.UserDTO;
+import com.tmjonker.socialmediabackend.dto.UserStorageDTO;
 import com.tmjonker.socialmediabackend.entities.user.User;
 import com.tmjonker.socialmediabackend.jwt.JwtResponse;
 import com.tmjonker.socialmediabackend.jwt.JwtTokenUtil;
@@ -32,8 +33,10 @@ public class RegisterController {
         try {
             User user = userDetailsService.saveNewUser(userDTO);
             String token = jwtTokenUtil.generateToken(user);
+            
+            UserStorageDTO userStorageDTO = new UserStorageDTO(user);
 
-            return ResponseEntity.ok(Map.of("token", new JwtResponse(token), "user", user));
+            return ResponseEntity.ok(Map.of("token", new JwtResponse(token), "user", userStorageDTO));
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
