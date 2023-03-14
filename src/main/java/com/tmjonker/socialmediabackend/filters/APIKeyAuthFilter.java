@@ -46,7 +46,7 @@ public class APIKeyAuthFilter implements Filter {
     private String getApiKey(HttpServletRequest httpServletRequest) {
         String apiKey = null;
 
-        String authHeader = httpServletRequest.getHeader("Authorization");
+        String authHeader = httpServletRequest.getHeader("SocialPlus");
         if(authHeader != null) {
             authHeader = authHeader.trim();
             if(authHeader.toLowerCase().startsWith(keyHeader + " ")) {
