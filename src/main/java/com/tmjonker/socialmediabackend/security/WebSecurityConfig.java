@@ -1,9 +1,11 @@
 package com.tmjonker.socialmediabackend.security;
 
+import com.tmjonker.socialmediabackend.filters.APIKeyAuthFilter;
 import com.tmjonker.socialmediabackend.jwt.JwtAuthenticationEntryPoint;
 import com.tmjonker.socialmediabackend.jwt.JwtRequestFilter;
 import com.tmjonker.socialmediabackend.services.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -31,13 +33,18 @@ import java.security.SecureRandom;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
-@Order(2)
 public class WebSecurityConfig {
 
 
     CustomUserDetailsService customUserDetailsService;
     JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     JwtRequestFilter jwtRequestFilter;
+
+    @Value("${tmjonker.http.auth-token-header-name}")
+    private String keyHeader;
+
+    @Value("${tmjonker.http.auth-token}")
+    private String keyValue;
 
     public WebSecurityConfig (CustomUserDetailsService customUserDetailsService,
                               JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
@@ -63,11 +70,16 @@ public class WebSecurityConfig {
         http
                 .csrf()
                 .disable()
+                .cors()
+                .and()
                 .authorizeHttpRequests((auth) -> {
                             try {
                                 auth
                                         .requestMatchers("/api/**")
-                                        .permitAll()
+                                        .authenticated()
+                                        .and()
+                                        .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                                        .authorizeHttpRequests()
                                         .anyRequest().authenticated()
                                         .and()
                                         .exceptionHandling()
@@ -81,7 +93,7 @@ public class WebSecurityConfig {
                         }
                 );
 
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new APIKeyAuthFilter(keyHeader, keyValue), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

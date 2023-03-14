@@ -4,6 +4,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
@@ -28,6 +29,10 @@ public class APIKeyAuthFilter implements Filter {
             String apiKey = getApiKey((HttpServletRequest) request);
             if(apiKey != null) {
                 if(apiKey.equals(keyValue)) {
+                    if (((HttpServletRequest) request).getRequestURL().toString().contains("/test")) {
+                        chain.doFilter(request, response);
+                        return;
+                    }
                     APIKeyAuthenticationToken apiToken = new APIKeyAuthenticationToken(apiKey, AuthorityUtils.NO_AUTHORITIES);
                     SecurityContextHolder.getContext().setAuthentication(apiToken);
                 } else {
@@ -36,6 +41,11 @@ public class APIKeyAuthFilter implements Filter {
                     httpResponse.getWriter().write("Invalid API Key");
                     return;
                 }
+            } else {
+                HttpServletResponse httpResponse = (HttpServletResponse) response;
+                httpResponse.setStatus(401);
+                httpResponse.getWriter().write("No API Key Found");
+                return;
             }
         }
 

@@ -42,7 +42,7 @@ public class AuthenticateController {
             final UserDetails userDetails = userDetailsService
                     .loadUserByUsername(authenticationRequest.getEmail());
 
-            final String token = jwtTokenUtil.generateToken(userDetails);
+            final String token = jwtTokenUtil.generateToken((User) userDetails);
 
             UserStorageDTO userStorageDTO = new UserStorageDTO((User) userDetails);
 

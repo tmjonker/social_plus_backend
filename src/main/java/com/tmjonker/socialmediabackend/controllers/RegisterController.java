@@ -36,7 +36,7 @@ public class RegisterController {
             
             UserStorageDTO userStorageDTO = new UserStorageDTO(user);
 
-            return ResponseEntity.ok(Map.of("token", new JwtResponse(token), "user", userStorageDTO));
+            return ResponseEntity.ok(Map.of("token", "Bearer " +  new JwtResponse(token), "user", userStorageDTO));
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
