@@ -6,6 +6,7 @@ import com.tmjonker.socialmediabackend.services.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
@@ -30,6 +31,7 @@ import java.security.SecureRandom;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
+@Order(2)
 public class WebSecurityConfig {
 
 
@@ -64,9 +66,9 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((auth) -> {
                             try {
                                 auth
-                                        .requestMatchers("/register", "/authenticate", "/email", "/username")
+                                        .requestMatchers("/api/**")
                                         .permitAll()
-                                        .anyRequest().denyAll()
+                                        .anyRequest().authenticated()
                                         .and()
                                         .exceptionHandling()
                                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)

@@ -28,7 +28,7 @@ public class RegisterController {
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
-    @PostMapping("/register")
+    @PostMapping("/api/register")
     public ResponseEntity<?> postRegistration(@RequestBody UserDTO userDTO) {
         try {
             User user = userDetailsService.saveNewUser(userDTO);

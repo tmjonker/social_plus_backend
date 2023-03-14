@@ -34,7 +34,7 @@ public class AuthenticateController {
         this.userDetailsService = userDetailsService;
     }
 
-    @PostMapping(value = "/authenticate")
+    @PostMapping(value = "/api/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
         try {

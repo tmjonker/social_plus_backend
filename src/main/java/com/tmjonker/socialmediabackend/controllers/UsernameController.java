@@ -20,7 +20,7 @@ public class UsernameController {
         this.userDetailsService = userDetailsService;
     }
 
-    @PostMapping("/username")
+    @PostMapping("/api/username")
     public ResponseEntity<?> checkUsernameExists(@RequestBody UsernameDTO username) {
 
         boolean exists = userDetailsService.userExistsByUsername(username.getUsername());

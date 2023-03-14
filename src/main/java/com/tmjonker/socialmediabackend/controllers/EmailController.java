@@ -22,7 +22,7 @@ public class EmailController {
         this.userDetailsService = userDetailsService;
     }
 
-    @PostMapping("/email")
+    @PostMapping("/api/email")
     public ResponseEntity<?> checkEmailExists(@RequestBody EmailDTO email) {
 
         boolean exists = userDetailsService.userExistsByEmail(email.getEmail());
