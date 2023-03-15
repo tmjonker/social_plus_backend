@@ -29,7 +29,7 @@ public class APIKeyAuthFilter implements Filter {
             String apiKey = getApiKey((HttpServletRequest) request);
             if(apiKey != null) {
                 if(apiKey.equals(keyValue)) {
-                    if (((HttpServletRequest) request).getRequestURL().toString().contains("/test")) {
+                    if (!((HttpServletRequest) request).getRequestURL().toString().contains("/api")) {
                         chain.doFilter(request, response);
                         return;
                     }

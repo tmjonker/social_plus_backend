@@ -18,6 +18,7 @@ public class MessageReceived {
 
     private String fromUsername;
 
+    private String subject;
     private String body;
 
     @CreationTimestamp
@@ -28,9 +29,10 @@ public class MessageReceived {
 
     private Long toUserId;
 
-    public MessageReceived(String fromUsername, String body) {
+    public MessageReceived(String fromUsername, String subject, String body) {
         this.fromUsername = fromUsername;
         this.body = body;
+        this.subject = subject;
     }
 
     public MessageReceived() {
@@ -82,5 +84,13 @@ public class MessageReceived {
 
     public void setToUserId(Long toUserId) {
         this.toUserId = toUserId;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 }

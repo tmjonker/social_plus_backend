@@ -16,6 +16,8 @@ public class MessageSent {
 
     private String toUsername;
 
+    private String subject;
+
     private String body;
 
     @CreationTimestamp
@@ -26,9 +28,10 @@ public class MessageSent {
 
     private Long fromUserId;
 
-    public MessageSent(String toUsername, String body) {
+    public MessageSent(String toUsername, String subject, String body) {
         this.toUsername = toUsername;
         this.body = body;
+        this.subject = subject;
     }
 
     public MessageSent() {
@@ -80,6 +83,14 @@ public class MessageSent {
 
     public void setFromUserId(Long fromUserId) {
         this.fromUserId = fromUserId;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 }
 
