@@ -8,12 +8,14 @@ import com.tmjonker.socialmediabackend.repositories.MessageReceivedRepository;
 import com.tmjonker.socialmediabackend.repositories.MessageSentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DirectMessageService {
 
     private MessageReceivedRepository messageReceivedRepository;
     private MessageSentRepository messageSentRepository;
-    private CustomUserDetailsService userDetailsService;
+    private final CustomUserDetailsService userDetailsService;
 
     public DirectMessageService(MessageReceivedRepository messageReceivedRepository,
                                 MessageSentRepository messageSentRepository,
@@ -37,5 +39,15 @@ public class DirectMessageService {
 
         userDetailsService.saveUser(fromUser);
         userDetailsService.saveUser(toUser);
+    }
+
+    public List<MessageReceived> getUserMessagesReceived(String username) {
+
+        try {
+            User user = userDetailsService.getUserByUsername(username);
+            return user.getReceivedMessages();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

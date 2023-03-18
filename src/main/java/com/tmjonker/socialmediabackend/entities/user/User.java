@@ -166,4 +166,12 @@ public class User implements UserDetails {
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
     }
+
+    public List<MessageSent> getSentMessages() {
+        return sentMessages;
+    }
+
+    public List<MessageReceived> getReceivedMessages() {
+        return receivedMessages;
+    }
 }
