@@ -43,11 +43,11 @@ public class User implements UserDetails {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "fromUserId", referencedColumnName = "id")
     private List<MessageSent> sentMessages = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "toUserId", referencedColumnName = "id")
     private List<MessageReceived> receivedMessages = new ArrayList<>();
 

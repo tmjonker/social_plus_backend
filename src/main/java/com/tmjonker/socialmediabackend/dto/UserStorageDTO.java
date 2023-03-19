@@ -8,6 +8,7 @@ public class UserStorageDTO {
     private String username;
     private String firstName;
     private String lastName;
+    private String imgPath;
 
     public UserStorageDTO() {
     }
@@ -17,6 +18,7 @@ public class UserStorageDTO {
         this.username = user.getUsername();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
+        this.imgPath = user.getImgPath();
     }
 
     public String getEmail() {
@@ -49,5 +51,13 @@ public class UserStorageDTO {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 }

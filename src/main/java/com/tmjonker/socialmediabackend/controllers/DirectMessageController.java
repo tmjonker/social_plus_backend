@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -36,13 +37,11 @@ public class DirectMessageController {
     @GetMapping("/direct-message/{username}")
     public ResponseEntity<?> getUserReceivedMessages(@PathVariable String username) {
 
-
-        List<MessageReceived> messagesReceived = directMessageService.getUserMessagesReceived(username);
-
-        if (messagesReceived != null) {
+        try {
+            List<MessageReceived> messagesReceived = directMessageService.getUserMessagesReceived(username);
             return new ResponseEntity<>(messagesReceived, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

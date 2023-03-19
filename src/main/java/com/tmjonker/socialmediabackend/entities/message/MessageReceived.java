@@ -29,10 +29,13 @@ public class MessageReceived {
 
     private Long toUserId;
 
+    private boolean hasBeenRead;
+
     public MessageReceived(String fromUsername, String subject, String body) {
         this.fromUsername = fromUsername;
         this.body = body;
         this.subject = subject;
+        this.hasBeenRead = false;
     }
 
     public MessageReceived() {
@@ -92,5 +95,13 @@ public class MessageReceived {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public boolean isHasBeenRead() {
+        return hasBeenRead;
+    }
+
+    public void setHasBeenRead(boolean hasBeenRead) {
+        this.hasBeenRead = hasBeenRead;
     }
 }

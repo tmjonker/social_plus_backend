@@ -6,8 +6,10 @@ import com.tmjonker.socialmediabackend.entities.message.MessageSent;
 import com.tmjonker.socialmediabackend.entities.user.User;
 import com.tmjonker.socialmediabackend.repositories.MessageReceivedRepository;
 import com.tmjonker.socialmediabackend.repositories.MessageSentRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,13 +28,16 @@ public class DirectMessageService {
         this.userDetailsService = userDetailsService;
     }
 
-    public void processNewMessage(MessageDTO messageDTO) throws Exception {
+    public void processNewMessage(MessageDTO messageDTO) throws UsernameNotFoundException {
 
         User fromUser = (User) userDetailsService.loadUserByUsername(messageDTO.getFrom());
         User toUser = (User) userDetailsService.loadUserByUsername(messageDTO.getTo());
 
         MessageReceived messageReceived = new MessageReceived(fromUser.getUsername(), messageDTO.getSubject(), messageDTO.getBody());
         MessageSent messageSent = new MessageSent(toUser.getUsername(), messageDTO.getSubject(), messageDTO.getBody());
+
+        messageSent = messageSentRepository.save(messageSent);
+        messageReceived = messageReceivedRepository.save(messageReceived);
 
         fromUser.addSentMessage(messageSent);
         toUser.addReceivedMessage(messageReceived);
@@ -41,13 +46,13 @@ public class DirectMessageService {
         userDetailsService.saveUser(toUser);
     }
 
-    public List<MessageReceived> getUserMessagesReceived(String username) {
+    public List<MessageReceived> getUserMessagesReceived(String username) throws UsernameNotFoundException {
 
-        try {
             User user = userDetailsService.getUserByUsername(username);
-            return user.getReceivedMessages();
-        } catch (Exception e) {
-            return null;
-        }
+
+            if (user.getReceivedMessages() != null)
+                return user.getReceivedMessages();
+            else
+                return new ArrayList<>();
     }
 }
