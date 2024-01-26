@@ -2,6 +2,7 @@ package com.tmjonker.socialmediabackend.services;
 
 import com.tmjonker.socialmediabackend.constants.Constants;
 import com.tmjonker.socialmediabackend.dto.UserDTO;
+import com.tmjonker.socialmediabackend.dto.UserStorageDTO;
 import com.tmjonker.socialmediabackend.entities.role.Role;
 import com.tmjonker.socialmediabackend.entities.user.User;
 import com.tmjonker.socialmediabackend.exceptions.EmailAlreadyExistsException;

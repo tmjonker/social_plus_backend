@@ -7,9 +7,9 @@ public class UpdateUserDTO {
     private String username;
     private String firstName;
     private String lastName;
-    private MultipartFile image;
+    private String image;
 
-    public UpdateUserDTO(String username, String firstName, String lastName, MultipartFile image) {
+    public UpdateUserDTO(String username, String firstName, String lastName, String image) {
 
         this.username = username;
         this.firstName = firstName;
@@ -44,11 +44,11 @@ public class UpdateUserDTO {
         this.lastName = lastName;
     }
 
-    public MultipartFile getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(MultipartFile image) {
+    public void setImage(String image) {
         this.image = image;
     }
 }

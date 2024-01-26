@@ -10,17 +10,14 @@ public class UserDTO {
     private String email;
     private String firstName;
     private String lastName;
-    private MultipartFile image;
 
-
-    public UserDTO(String username, String password1, String password2, String email, String firstName, String lastName, MultipartFile image) {
+    public UserDTO(String username, String password1, String password2, String email, String firstName, String lastName) {
         this.username = username;
         this.password1 = password1;
         this.password2 = password2;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.image = image;
     }
 
     public UserDTO() {}
@@ -71,14 +68,6 @@ public class UserDTO {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public MultipartFile getImage() {
-        return image;
-    }
-
-    public void setImage(MultipartFile image) {
-        this.image = image;
     }
 }
 
