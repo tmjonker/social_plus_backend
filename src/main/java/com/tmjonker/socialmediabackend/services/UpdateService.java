@@ -3,6 +3,7 @@ package com.tmjonker.socialmediabackend.services;
 import com.tmjonker.socialmediabackend.dto.UpdateUserDTO;
 import com.tmjonker.socialmediabackend.entities.user.User;
 import com.tmjonker.socialmediabackend.utility.S3Util;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,16 +18,15 @@ public class UpdateService {
         this.passwordManagementService = passwordManagementService;
     }
 
-    public User updateUser(UpdateUserDTO updateUserDTO) throws Exception {
+    public User updateUser(UpdateUserDTO updateUserDTO) throws UsernameNotFoundException {
 
-        S3Util s3Util = new S3Util();
-        s3Util.putS3Object(updateUserDTO.getImage().getBytes(), updateUserDTO.getUsername());
+//        Future functionality...
+//        S3Util s3Util = new S3Util();
+//        s3Util.putS3Object(updateUserDTO.getImage().getBytes(), updateUserDTO.getUsername());
 
         User user = userDetailsService.getUserByUsername(updateUserDTO.getUsername());
-        user.setEmail(updateUserDTO.getEmail());
         user.setFirstName(updateUserDTO.getFirstName());
         user.setLastName(updateUserDTO.getLastName());
-        user.setUsername(updateUserDTO.getUsername());
 
         return userDetailsService.saveUser(user);
     }

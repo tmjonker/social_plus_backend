@@ -4,14 +4,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class UpdateUserDTO {
 
-    private String email;
     private String username;
     private String firstName;
     private String lastName;
     private MultipartFile image;
 
-    public UpdateUserDTO(String email, String username, String firstName, String lastName, MultipartFile image) {
-        this.email = email;
+    public UpdateUserDTO(String username, String firstName, String lastName, MultipartFile image) {
+
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -19,14 +18,6 @@ public class UpdateUserDTO {
     }
 
     public UpdateUserDTO() {
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getUsername() {
