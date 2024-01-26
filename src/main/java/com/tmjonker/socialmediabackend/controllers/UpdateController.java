@@ -20,7 +20,7 @@ public class UpdateController {
         this.updateService = updateService;
     }
 
-    @PostMapping
+    @PostMapping("/api/update")
     public ResponseEntity<?> postUpdateUser(@RequestBody UpdateUserDTO updateUserDTO) {
 
 
