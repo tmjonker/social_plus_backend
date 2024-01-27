@@ -25,7 +25,7 @@ public class UpdateController {
         this.updateService = updateService;
     }
 
-    @PostMapping("/api/update")
+    @PostMapping("/update")
     public ResponseEntity<?> postUpdateUser(@RequestBody UpdateUserDTO updateUserDTO) {
 
         try {
