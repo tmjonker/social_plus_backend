@@ -33,7 +33,7 @@ public class DirectMessageService {
         User fromUser = (User) userDetailsService.loadUserByUsername(messageDTO.getFrom());
         User toUser = (User) userDetailsService.loadUserByUsername(messageDTO.getTo());
 
-        MessageReceived messageReceived = new MessageReceived(fromUser.getUsername(), messageDTO.getSubject(), messageDTO.getBody());
+        MessageReceived messageReceived = new MessageReceived(toUser.getUsername(), fromUser.getUsername(), messageDTO.getSubject(), messageDTO.getBody());
         MessageSent messageSent = new MessageSent(toUser.getUsername(), messageDTO.getSubject(), messageDTO.getBody());
 
         messageSent = messageSentRepository.save(messageSent);
@@ -54,5 +54,17 @@ public class DirectMessageService {
                 return user.getReceivedMessages();
             else
                 return new ArrayList<>();
+    }
+
+    public List<MessageReceived> processReadMessages(List<MessageReceived> messageReceivedList) throws UsernameNotFoundException {
+
+        User user = userDetailsService.getUserByUsername(messageReceivedList.get(0).getToUsername());
+        messageReceivedList.forEach((messageReceived) -> {
+            messageReceivedRepository.save(messageReceived);
+            user.addReceivedMessage(messageReceived);
+            userDetailsService.saveUser(user);
+        });
+
+        return user.getReceivedMessages();
     }
 }

@@ -15,23 +15,18 @@ public class MessageReceived {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String toUsername;
     private String fromUsername;
-
     private String subject;
     private String body;
-
     @CreationTimestamp
     private Date dateCreated;
-
     @UpdateTimestamp
     private Date lastUpdated;
-
-    private Long toUserId;
-
     private boolean hasBeenRead;
 
-    public MessageReceived(String fromUsername, String subject, String body) {
+    public MessageReceived(String toUsername, String fromUsername, String subject, String body) {
+        this.toUsername = toUsername;
         this.fromUsername = fromUsername;
         this.body = body;
         this.subject = subject;
@@ -81,14 +76,6 @@ public class MessageReceived {
         this.lastUpdated = lastUpdated;
     }
 
-    public Long getToUserId() {
-        return toUserId;
-    }
-
-    public void setToUserId(Long toUserId) {
-        this.toUserId = toUserId;
-    }
-
     public String getSubject() {
         return subject;
     }
@@ -103,5 +90,13 @@ public class MessageReceived {
 
     public void setHasBeenRead(boolean hasBeenRead) {
         this.hasBeenRead = hasBeenRead;
+    }
+
+    public String getToUsername() {
+        return toUsername;
+    }
+
+    public void setToUsername(String toUsername) {
+        this.toUsername = toUsername;
     }
 }

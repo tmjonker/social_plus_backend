@@ -6,16 +6,17 @@ import com.tmjonker.socialmediabackend.services.DirectMessageService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 public class DirectMessageController {
 
-    private DirectMessageService directMessageService;
+    private final  DirectMessageService directMessageService;
 
     public DirectMessageController(DirectMessageService directMessageService) {
 
@@ -41,6 +42,16 @@ public class DirectMessageController {
             List<MessageReceived> messagesReceived = directMessageService.getUserMessagesReceived(username);
             return new ResponseEntity<>(messagesReceived, HttpStatus.OK);
         } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/direct-message/read")
+    public ResponseEntity<?> postReadMessages(@RequestBody List<MessageReceived> messageReceivedList) {
+        try {
+            List<MessageReceived> messagesReceived = directMessageService.processReadMessages(messageReceivedList);
+            return new ResponseEntity<>(messagesReceived, HttpStatus.OK);
+        } catch (UsernameNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
