@@ -56,6 +56,16 @@ public class DirectMessageService {
                 return new ArrayList<>();
     }
 
+    public List<MessageSent> getUserMessagesSent(String username) throws UsernameNotFoundException {
+
+        User user = userDetailsService.getUserByUsername(username);
+
+        if (user.getSentMessages() != null)
+            return user.getSentMessages();
+        else
+            return new ArrayList<>();
+    }
+
     public List<MessageReceived> processReadMessages(List<MessageReceived> messageReceivedList) throws UsernameNotFoundException {
 
         User user = userDetailsService.getUserByUsername(messageReceivedList.get(0).getToUsername());

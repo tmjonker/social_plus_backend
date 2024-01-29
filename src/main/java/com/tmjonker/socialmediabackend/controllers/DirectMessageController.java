@@ -2,6 +2,7 @@ package com.tmjonker.socialmediabackend.controllers;
 
 import com.tmjonker.socialmediabackend.dto.MessageDTO;
 import com.tmjonker.socialmediabackend.entities.message.MessageReceived;
+import com.tmjonker.socialmediabackend.entities.message.MessageSent;
 import com.tmjonker.socialmediabackend.services.DirectMessageService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -52,6 +53,17 @@ public class DirectMessageController {
             List<MessageReceived> messagesReceived = directMessageService.processReadMessages(messageReceivedList);
             return new ResponseEntity<>(messagesReceived, HttpStatus.OK);
         } catch (UsernameNotFoundException ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/direct-message/sent/{username}")
+    public ResponseEntity<?> getUserSentMessages(@PathVariable String username) {
+
+        try {
+            List<MessageSent> messagesSent = directMessageService.getUserMessagesSent(username);
+            return new ResponseEntity<>(messagesSent, HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
