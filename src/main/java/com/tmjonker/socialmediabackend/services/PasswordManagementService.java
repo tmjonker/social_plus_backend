@@ -1,5 +1,6 @@
 package com.tmjonker.socialmediabackend.services;
 
+import com.tmjonker.socialmediabackend.dto.ChangePasswordDTO;
 import com.tmjonker.socialmediabackend.entities.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,14 +19,14 @@ public class PasswordManagementService {
         this.customUserDetailsService = customUserDetailsService;
     }
 
-    public ResponseEntity<?> changePassword(String username, String newPassword) {
+    public ResponseEntity<?> changePassword(ChangePasswordDTO changePasswordDTO) {
 
-        User user = (User) customUserDetailsService.loadUserByUsername(username);
+        User user = (User) customUserDetailsService.loadUserByUsername(changePasswordDTO.getUsername());
 
         if (user == null)
             return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
 
-        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setPassword(passwordEncoder.encode(changePasswordDTO.getPassword()));
         customUserDetailsService.saveUser(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
