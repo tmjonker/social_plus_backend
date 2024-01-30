@@ -72,26 +72,16 @@ public class WebSecurityConfig {
                 .disable()
                 .cors()
                 .and()
-                .authorizeHttpRequests((auth) -> {
-                            try {
-                                auth
-                                        .requestMatchers("/api/**")
-                                        .authenticated()
-                                        .and()
-                                        .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-                                        .authorizeHttpRequests()
-                                        .anyRequest().authenticated()
-                                        .and()
-                                        .exceptionHandling()
-                                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                                        .and()
-                                        .sessionManagement()
-                                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-                            } catch (Exception e) {
-                                System.out.println(e.getMessage());
-                            }
-                        }
-                );
+                .authorizeHttpRequests()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(new APIKeyAuthFilter(keyHeader, keyValue), UsernamePasswordAuthenticationFilter.class);
 
